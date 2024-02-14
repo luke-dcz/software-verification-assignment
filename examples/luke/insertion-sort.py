@@ -11,3 +11,11 @@ def insertionSort(arr):
 		arr[j + 1] = key
 	return arr
 
+def isSorted(list):
+	flag = 0
+	i = 1
+	while i < len(list):
+		if(list[i] < list[i - 1]):
+			flag = 1
+		i += 1
+	return not flag
