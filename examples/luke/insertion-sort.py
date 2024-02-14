@@ -19,3 +19,7 @@ def isSorted(list):
 			flag = 1
 		i += 1
 	return not flag
+
+@given(st.lists(st.integers()))
+def test_insertionSort_sorts_list(list):
+	assert isSorted(insertionSort(list)) == True
