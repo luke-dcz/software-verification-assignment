@@ -71,5 +71,12 @@ def test_charInWord_true(toople):
     c, word = toople
     assert charInWord(c, word) == True
 
+#to avoid using definition in the filter expression, I blacklisted the characters that could appear in the word in c
+@given(word = five_letter_word, c = st.characters(blacklist_categories=('Ll', 'Lu')))
+def test_charInWord_false(c, word):
+    print(c, word)
+    assert charInWord(c, word) == False
+
 if __name__ == "__main__":
-    test_charInWord_true()    
+    test_charInWord_true()
+    test_charInWord_false()    
