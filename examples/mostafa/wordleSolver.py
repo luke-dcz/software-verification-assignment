@@ -55,14 +55,20 @@ def runSolver():
 
 #####TESTS BEGIN HERE!!!######
 from hypothesis import example, given, strategies as st
-from random import randint #OK YOU CAN'T USE RANDOM IN HYPOTHESIS IT RLY DOESN'T LIKE IT, DO NOT USE RANDOM
+from hypothesis import register_random
+#import random #OK YOU CAN'T USE RANDOM IN HYPOTHESIS IT RLY DOESN'T LIKE IT, DO NOT USE RANDOM
 
-def pickChar(word : str):
-    return (word[0], word)
+@st.composite
+def pick_char_word(draw):
+    word = draw(five_letter_word)
+    char = draw(st.sampled_from(word))
+    return char, word
 
-@given(st.text(min_size=5, max_size=5).map(pickChar))
+five_letter_word = st.text(alphabet=st.characters(whitelist_categories=('Ll', 'Lu')),min_size=5, max_size=5)
+
+@given(pick_char_word())
 def test_charInWord_true(toople):
-    (c, word) = toople
+    c, word = toople
     assert charInWord(c, word) == True
 
 if __name__ == "__main__":
