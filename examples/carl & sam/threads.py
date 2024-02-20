@@ -5,32 +5,39 @@ from hypothesis import given
 from hypothesis.strategies import integers
 
 contested_variable = True
-function_1_sleep_time = random.randint(0, 1)
-function_2_sleep_time = random.randint(0, 1)
+sleep_time = random.randint(0, 1)
+thread_1_output = 0
+thread_2_output = 0
+
 
 def function_1(input_number):
     global contested_variable
-    time.sleep(function_1_sleep_time)
+    global thread_1_output
+    time.sleep(0.5)
     if contested_variable == True:
         contested_variable = False
-        return 10 * input_number
-    else:
-        return input_number
+        thread_1_output = 10 * input_number
 
 def function_2(input_number):
     global contested_variable
-    time.sleep(function_2_sleep_time)
+    global thread_2_output
+    time.sleep(sleep_time)
     if contested_variable == False:
         contested_variable = True
-        return 20 * input_number
-    else:
-        return input_number
+        thread_2_output = 20 * input_number
+
+# threading.Thread(target=function_1, args=(5,)).start()
+# threading.Thread(target=function_2, args=(5,)).start()
+# time.sleep(2)
+# print(thread_1_output, thread_2_output)
 
 @given(integers())
 def test_function_1 (i):
-    assert function_1(i) == i * 10
-
-@given(integers())
-def test_function_2 (i):
-    assert function_2(i) == i * 20
+    global thread_1_output
+    global thread_2_output
+    threading.Thread(target=function_1, args=(i,)).start()
+    threading.Thread(target=function_2, args=(i,)).start()
+    time.sleep(1.5)
+    assert thread_1_output == i * 10
+    assert thread_2_output == i * 20
     

@@ -1,6 +1,5 @@
 import random
 from hypothesis import given
-from hypothesis import example
 from hypothesis.strategies import integers
 
 def create_random(input_number):
