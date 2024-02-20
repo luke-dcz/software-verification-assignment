@@ -28,11 +28,21 @@ def function_2(input_number):
 
 @given(integers())
 def test_function_1 (i):
+    global contested_variable
     global thread_1_output
     global thread_2_output
     threading.Thread(target=function_1, args=(i,)).start()
     threading.Thread(target=function_2, args=(i,)).start()
-    time.sleep(1.5)
-    assert thread_1_output == i * 10
-    assert thread_2_output == i * 20
+    time.sleep(1)
+    if contested_variable == True:
+        assert thread_1_output == i * 10
+        assert thread_2_output == i * 20
+    else:
+        assert thread_1_output == 0
+        assert thread_2_output == 0
+
+
+# gives error due to inconsisent behaviour however this is not ideal if this is the behaviour you want. 
+# you cannot test what happens if one thread finishes before the other if you cannot control run times.
+# even if you identify which thread ends first you get an error.
     
