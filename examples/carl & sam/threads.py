@@ -26,11 +26,6 @@ def function_2(input_number):
         contested_variable = True
         thread_2_output = 20 * input_number
 
-# threading.Thread(target=function_1, args=(5,)).start()
-# threading.Thread(target=function_2, args=(5,)).start()
-# time.sleep(2)
-# print(thread_1_output, thread_2_output)
-
 @given(integers())
 def test_function_1 (i):
     global thread_1_output
