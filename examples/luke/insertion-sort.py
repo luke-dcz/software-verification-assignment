@@ -56,3 +56,27 @@ class InsertionMachine(RuleBasedStateMachine):
 		assert isSorted(result) == True
 	
 TestInsertionMachine = InsertionMachine.TestCase
+
+# Insertion Sort State Machine using bundles.
+class InsertionMachineWithBundle(RuleBasedStateMachine):
+	Lists = Bundle('lists')
+	
+	@rule(target=Lists)
+	def newList(self):
+		return []
+
+	@rule(list=Lists, value=st.integers())
+	def push(self, list, value):
+		listPush(list, value)
+
+	@rule(list=Lists)
+	def sort(self, list):
+		result = insertionSort(list)
+		assert isSorted(result) == True
+
+	@rule(list1=Lists, list2=Lists)
+	def merge(self, list1, list2):
+		result = mergeLists(list1, list2)
+		assert len(result) == len(list1) + len(list2)
+
+TestInsertionMachineWithBundle = InsertionMachineWithBundle.TestCase
