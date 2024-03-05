@@ -33,13 +33,8 @@ def test_function_1 (i):
     global thread_2_output
     threading.Thread(target=function_1, args=(i,)).start()
     threading.Thread(target=function_2, args=(i,)).start()
-    time.sleep(1)
-    if contested_variable == True:
-        assert thread_1_output == i * 10
-        assert thread_2_output == i * 20
-    else:
-        assert thread_1_output == 0
-        assert thread_2_output == 0
+    assert thread_1_output == i * 10
+    assert thread_2_output == i * 20
 
 
 # gives error due to inconsisent behaviour however this is not ideal if this is the behaviour you want. 
