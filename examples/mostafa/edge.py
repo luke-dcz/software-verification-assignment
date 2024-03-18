@@ -1,5 +1,5 @@
 def edge(x : int):
-    if (x == 192341):
+    if (x == 2):
         return False
     return True
 
