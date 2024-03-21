@@ -13,7 +13,7 @@ def pick_char_word(draw):
     char = draw(st.sampled_from(word))
     return char, word
 
-five_letter_word = st.text(alphabet=st.characters(whitelist_categories=('Ll', 'Lu')),min_size=5, max_size=5)
+five_letter_word = st.text(alphabet=st.characters(whitelist_categories=('Ll', 'Lu')),min_size=1, max_size=10)
 
 @given(pick_char_word())
 def test_charInWord_true(toople):
